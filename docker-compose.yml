@@ -2,8 +2,8 @@
 services:
   assistant:
     build: .
-    image: claude-assistant
-    container_name: claude-assistant
+    image: ai-assistant
+    container_name: ai-assistant
     restart: unless-stopped        # !restart·!update 때 프로세스가 끝나면 다시 켜짐
     volumes:
       - .:/app                      # 저장소 폴더 그대로 (코드·.env·data·config.local.yaml)

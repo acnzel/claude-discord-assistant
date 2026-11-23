@@ -1,4 +1,4 @@
-"""주간 백업: 봇 데이터를 zip으로 묶어 구글 드라이브 'claude-assistant-backup' 폴더에 올린다 (최근 N개 유지).
+"""주간 백업: 봇 데이터를 zip으로 묶어 구글 드라이브 'ai-assistant-backup' 폴더에 올린다 (최근 N개 유지).
 
 포함: assistant.db(대화·리마인더·서재 쪽 텍스트·사용 기록·쿠폰 목록), memory.md, 기프티콘 이미지 (지출·메모는 Notion에 있음)
 제외: 비밀값(.env, 토큰 파일들), 서재 PDF 원본(다시 올리면 됨)
@@ -14,7 +14,7 @@ import zipfile
 from datetime import datetime
 from pathlib import Path
 
-FOLDER = "claude-assistant-backup"
+FOLDER = "ai-assistant-backup"
 DRIVE_FILE = "https://www.googleapis.com/auth/drive.file"
 EXCLUDE = {"google_token.json", "google_youtube_token.json", "ms_token.json", "kakao.json", "client_secret.json"}
 
@@ -76,7 +76,7 @@ def run(keep: int = 8) -> str:
 
     svc = _drive()
     fid = folder_id(svc)
-    name = f"claude-assistant-{datetime.now():%Y%m%d-%H%M}.zip"
+    name = f"ai-assistant-{datetime.now():%Y%m%d-%H%M}.zip"
     with tempfile.TemporaryDirectory() as tmp:
         path, files = build_zip(Path(tmp) / name)
         size = path.stat().st_size

@@ -44,7 +44,7 @@
 ### VM 만들기
 
 1. 왼쪽 위 메뉴 → **Compute** → **Instances** → **Create instance**.
-2. Name: `claude-assistant`.
+2. Name: `ai-assistant`.
 3. **Image and shape** → Edit
    - Image: **Canonical Ubuntu** (24.04 또는 22.04)
    - Shape: **VM.Standard.E2.1.Micro** (Always Free-eligible 표시 확인). A1.Flex도 무료지만 자리가 없는 경우가 많아요
@@ -100,8 +100,8 @@ free -h
 VM이 저장소를 받고, 비서가 다른 저장소를 읽고, 자기 개선 PR을 올리려면 토큰이 필요해요.
 
 1. github.com → 프로필 → **Settings** → 맨 아래 **Developer settings** → **Personal access tokens** → **Fine-grained tokens** → **Generate new token**.
-2. Token name: `claude-assistant`, Expiration: 90일 또는 1년.
-3. Repository access: 반드시 **Only select repositories** → `claude-assistant`와 비서가 볼 내 저장소들을 골라요. "Public repositories"로 두면 비공개 저장소에서 404가 나요.
+2. Token name: `ai-assistant`, Expiration: 90일 또는 1년.
+3. Repository access: 반드시 **Only select repositories** → `claude-discord-assistant`와 비서가 볼 내 저장소들을 골라요. "Public repositories"로 두면 비공개 저장소에서 404가 나요.
 4. Repository permissions
 
 | 권한 | 수준 | 쓰는 곳 |
@@ -150,7 +150,7 @@ VM이 저장소를 받고, 비서가 다른 저장소를 읽고, 자기 개선 P
 비서의 머리인 Claude를 부르는 키예요.
 
 1. console.anthropic.com에 로그인해요. 조직이 여러 개면 크레딧이 있는 조직을 골라요.
-2. **Settings → API Keys → Create Key** → 이름 `claude-assistant` → `sk-ant-…` 값을 메모장에 복사해요 (`ANTHROPIC_API_KEY`).
+2. **Settings → API Keys → Create Key** → 이름 `ai-assistant` → `sk-ant-…` 값을 메모장에 복사해요 (`ANTHROPIC_API_KEY`).
 3. **Billing**에 크레딧이 남아 있는지 봐요. 크레딧이 0이면 비서가 대답하지 못해요.
 
 비서는 스스로 월 100달러 한도를 지켜요. 80%와 100%에서 알리고, 넘으면 작은 모델만 쓰는 절약 모드로 바뀌어요. 웹 검색은 하루 50회까지예요. 바꾸는 법은 14단계에 있어요.
@@ -163,8 +163,8 @@ VM이 저장소를 받고, 비서가 다른 저장소를 읽고, 자기 개선 P
 
    ```
    sudo apt-get update && sudo apt-get install -y git
-   git clone https://github.com/<내아이디>/claude-discord-assistant.git claude-assistant
-   cd claude-assistant
+   git clone https://github.com/<내아이디>/claude-discord-assistant.git ai-assistant
+   cd ai-assistant
    git config credential.helper store
    ```
 
@@ -189,11 +189,11 @@ VM이 저장소를 받고, 비서가 다른 저장소를 읽고, 자기 개선 P
    ```
 
    nano에서 저장은 **Ctrl+O → Enter**, 나가기는 **Ctrl+X**예요. `=` 앞뒤에 띄어쓰기나 따옴표를 넣지 않아요.
-4. 스크립트를 한 번 더 실행해요. 이번에는 비서를 systemd 서비스 `claude-assistant`로 등록하고 켜요. VM이 다시 켜져도 자동으로 올라와요.
+4. 스크립트를 한 번 더 실행해요. 이번에는 비서를 systemd 서비스 `ai-assistant`로 등록하고 켜요. VM이 다시 켜져도 자동으로 올라와요.
 
    ```
    bash deploy/setup.sh
-   journalctl -u claude-assistant -f
+   journalctl -u ai-assistant -f
    ```
 
    로그에 로그인 성공 줄이 보이면 Ctrl+C로 로그 보기를 끝내요. 비서는 계속 돌아요.
@@ -226,7 +226,7 @@ VM이 저장소를 받고, 비서가 다른 저장소를 읽고, 자기 개선 P
 2. 1번처럼 저장소를 받고 `.env`를 만들어 채워요.
 
    ```
-   cd ~/claude-assistant
+   cd ~/ai-assistant
    cp .env.example .env
    nano .env
    ```
@@ -252,10 +252,10 @@ VM이 저장소를 받고, 비서가 다른 저장소를 읽고, 자기 개선 P
 
 ### 이후 키를 추가할 때마다
 
-6단계부터는 매번 같은 패턴이에요. VM에서 `nano ~/claude-assistant/.env`로 값을 넣고, 디스코드에서 `!restart` 하거나 VM에서 재시작해요.
+6단계부터는 매번 같은 패턴이에요. VM에서 `nano ~/ai-assistant/.env`로 값을 넣고, 디스코드에서 `!restart` 하거나 VM에서 재시작해요.
 
 ```
-sudo systemctl restart claude-assistant
+sudo systemctl restart ai-assistant
 ```
 
 ## 6단계 Gmail
@@ -263,7 +263,7 @@ sudo systemctl restart claude-assistant
 비서가 메일을 읽고 중요한 메일을 알려주고 답장 초안을 만들어요. **읽기만** 하고, 읽음 표시도 바꾸지 않고, 메일을 보내지 않아요.
 
 1. myaccount.google.com → **보안** → **2단계 인증**을 켜요. 앱 비밀번호는 2단계 인증이 켜져 있어야 만들 수 있어요.
-2. 같은 화면 위쪽 검색창에 **앱 비밀번호** 검색 → 앱 이름 `claude-assistant` → **만들기**.
+2. 같은 화면 위쪽 검색창에 **앱 비밀번호** 검색 → 앱 이름 `ai-assistant` → **만들기**.
 3. Gmail 설정 → 전달 및 POP/IMAP → **IMAP 사용**이 켜져 있는지 봐요.
 4. 나온 16자리를 띄어쓰기 없이 VM `.env`에 넣어요.
 
@@ -283,12 +283,12 @@ sudo systemctl restart claude-assistant
 
 구글 동의 화면에 홈페이지와 개인정보처리방침 주소가 있어야 저장돼요.
 
-1. Notion 등에 "claude-assistant 개인정보처리방침" 페이지를 만들고 "개인용 비서이며 데이터는 본인 서버에만 저장하고 제3자에게 주지 않는다"는 내용을 적어요.
+1. Notion 등에 "ai-assistant 개인정보처리방침" 페이지를 만들고 "개인용 비서이며 데이터는 본인 서버에만 저장하고 제3자에게 주지 않는다"는 내용을 적어요.
 2. 웹에 공개 게시하고 주소를 복사해요 (Notion: 공유 → 게시 → 웹에 게시).
 
 ### 콘솔 준비 (PC 브라우저)
 
-1. console.cloud.google.com → 위쪽 프로젝트 선택 → **새 프로젝트** → 이름 `claude-assistant` → 만들기.
+1. console.cloud.google.com → 위쪽 프로젝트 선택 → **새 프로젝트** → 이름 `ai-assistant` → 만들기.
 2. **API 및 서비스 → 라이브러리**에서 다섯 개를 하나씩 검색해 **사용**을 눌러요.
    - Google Calendar API
    - Google Drive API
@@ -296,7 +296,7 @@ sudo systemctl restart claude-assistant
    - YouTube Data API v3
    - Google Sheets API
 3. **Google 인증 플랫폼**(OAuth 동의 화면) → 시작하기
-   - 앱 이름 `claude-assistant`, 지원 이메일은 내 Gmail
+   - 앱 이름 `ai-assistant`, 지원 이메일은 내 Gmail
    - 대상: **외부**
    - 연락처 이메일 → 동의 → 만들기
 4. **브랜딩** 탭: 홈페이지와 개인정보처리방침 주소에 위에서 복사한 주소를 넣고 저장.
@@ -305,7 +305,7 @@ sudo systemctl restart claude-assistant
 7. JSON을 VM으로 복사해요 (PC PowerShell, 다운로드 폴더에서).
 
    ```
-   scp -i "$env:USERPROFILE\.ssh\oracle.key" .\client_secret_*.json ubuntu@<공인 IP>:~/claude-assistant/data/client_secret.json
+   scp -i "$env:USERPROFILE\.ssh\oracle.key" .\client_secret_*.json ubuntu@<공인 IP>:~/ai-assistant/data/client_secret.json
    ```
 
 ### 로그인 (SSH 터널)
@@ -320,15 +320,15 @@ VM에는 브라우저가 없어서, PC 브라우저가 VM의 8765번 포트로 �
 2. 그 창에서 기본 토큰을 받아요.
 
    ```
-   cd ~/claude-assistant && .venv/bin/python deploy/google_auth.py
+   cd ~/ai-assistant && .venv/bin/python deploy/google_auth.py
    ```
-3. 출력된 주소를 PC 브라우저에 붙여 넣고 로그인해요. "확인되지 않은 앱"이 뜨면 **고급 → claude-assistant(으)로 이동**, 권한은 모두 체크하고 계속. "완료"가 뜨면 `data/google_token.json`이 생겨요.
+3. 출력된 주소를 PC 브라우저에 붙여 넣고 로그인해요. "확인되지 않은 앱"이 뜨면 **고급 → ai-assistant(으)로 이동**, 권한은 모두 체크하고 계속. "완료"가 뜨면 `data/google_token.json`이 생겨요.
 4. 같은 창에서 유튜브 토큰을 따로 받아요. 결과는 `data/google_youtube_token.json`이에요.
 
    ```
    .venv/bin/python deploy/google_auth.py --youtube
    ```
-5. `sudo systemctl restart claude-assistant` → 디스코드에서 "이번 주 일정 알려줘", `!yt`, `!birthdays`로 확인해요.
+5. `sudo systemctl restart ai-assistant` → 디스코드에서 "이번 주 일정 알려줘", `!yt`, `!birthdays`로 확인해요.
 
 | 받은 권한 | 쓰는 기능 |
 | --- | --- |
@@ -359,7 +359,7 @@ VM에는 브라우저가 없어서, PC 브라우저가 VM의 8765번 포트로 �
 ### Azure 앱 등록 (PC 브라우저)
 
 1. portal.azure.com에 같은 Microsoft 계정으로 로그인 → 검색창에 **앱 등록** → **새 등록**.
-2. 이름 `claude-assistant`, 지원되는 계정 유형 **개인 Microsoft 계정만** → 등록. 리디렉션 URI는 비워 둬요.
+2. 이름 `ai-assistant`, 지원되는 계정 유형 **개인 Microsoft 계정만** → 등록. 리디렉션 URI는 비워 둬요.
 3. **인증** → 고급 설정 → **퍼블릭 클라이언트 흐름 허용: 예** → 저장.
 4. **API 권한** → 권한 추가 → Microsoft Graph → 위임된 권한 → `Tasks.ReadWrite`, `offline_access` 체크 → 추가.
 5. **개요**의 **애플리케이션(클라이언트) ID**를 VM `.env`에 넣어요.
@@ -374,7 +374,7 @@ VM에는 브라우저가 없어서, PC 브라우저가 VM의 8765번 포트로 �
 1. VM에서 실행해요.
 
    ```
-   cd ~/claude-assistant && .venv/bin/python deploy/ms_auth.py
+   cd ~/ai-assistant && .venv/bin/python deploy/ms_auth.py
    ```
 2. 화면의 주소를 폰이나 PC에서 열고 코드를 입력 → **리마인더와 연결한 같은 계정**으로 로그인 → 승인.
 3. "목록: 작업 (기본)"이 보이고 `data/ms_token.json`이 생기면 재시작해요. 동기화한 목록이 기본 목록이 아니면 `!set todo.list_name 목록이름`.
@@ -388,7 +388,7 @@ VM에는 브라우저가 없어서, PC 브라우저가 VM의 8765번 포트로 �
 
 ### 통합 만들기
 
-1. notion.so/my-integrations → **새 통합** → 이름 `claude-assistant`, 유형 **내부**, 워크스페이스 선택 → 저장.
+1. notion.so/my-integrations → **새 통합** → 이름 `ai-assistant`, 유형 **내부**, 워크스페이스 선택 → 저장.
 2. **내부 통합 시크릿**을 보기 → 복사 → VM `.env`의 `NOTION_TOKEN`에 넣어요.
 
 ### 페이지와 DB 만들기
@@ -410,7 +410,7 @@ VM에는 브라우저가 없어서, PC 브라우저가 VM의 8765번 포트로 �
 
 ### 연결하고 ID 넣기
 
-1. **비서 메모** 페이지 오른쪽 위 **··· → 연결 → claude-assistant**. 아래 DB 3개도 같이 연결돼요.
+1. **비서 메모** 페이지 오른쪽 위 **··· → 연결 → ai-assistant**. 아래 DB 3개도 같이 연결돼요.
 2. ID를 모아요. 페이지나 DB를 전체 화면으로 열고 **링크 복사** → 주소의 `?` 앞 32자리(숫자와 영문)가 ID예요.
 3. 디스코드로 비서에게 알려줘요.
 
@@ -431,7 +431,7 @@ VM에는 브라우저가 없어서, PC 브라우저가 VM의 8765번 포트로 �
 
 ### 앱 만들기 (developers.kakao.com)
 
-1. 카카오 계정으로 로그인 → **내 애플리케이션** → **애플리케이션 추가** → 앱 이름 `claude-assistant`, 회사명은 본인 이름.
+1. 카카오 계정으로 로그인 → **내 애플리케이션** → **애플리케이션 추가** → 앱 이름 `ai-assistant`, 회사명은 본인 이름.
 2. **카카오 로그인** → 활성화 **ON**.
 3. **카카오 로그인 → 동의항목**에서 두 개를 선택 동의로 켜요.
    - 카카오톡 메시지 전송 (`talk_message`)
@@ -453,7 +453,7 @@ VM에는 브라우저가 없어서, PC 브라우저가 VM의 8765번 포트로 �
 1. VM에서 실행해요.
 
    ```
-   cd ~/claude-assistant && .venv/bin/python deploy/kakao_auth.py
+   cd ~/ai-assistant && .venv/bin/python deploy/kakao_auth.py
    ```
 2. 출력된 주소를 폰이나 PC 브라우저로 열고 모두 동의해요.
 3. `https://localhost/?code=…`로 이동하고 페이지가 안 열려요. 정상이에요. **주소창의 주소 전체**를 복사해 터미널에 붙여 넣고 Enter.
@@ -516,7 +516,7 @@ VM에는 브라우저가 없어서, PC 브라우저가 VM의 8765번 포트로 �
 
 VM이 꺼지면 비서는 스스로 알릴 수 없어요. 비서가 5분마다 신호를 보내고, 끊기면 healthchecks.io가 디스코드로 알려줘요.
 
-1. healthchecks.io 무료 가입 → **Add Check** → 이름 `claude-assistant` → Schedule에서 **Period 5분, Grace 10분**.
+1. healthchecks.io 무료 가입 → **Add Check** → 이름 `ai-assistant` → Schedule에서 **Period 5분, Grace 10분**.
 2. **Integrations** → **Discord** → Add Integration → 디스코드 화면에서 서버와 `#비서` 채널 선택 → 승인.
 3. 체크 화면의 **Ping URL**(`https://hc-ping.com/…`)을 VM `.env`에 넣고 재시작해요.
 
@@ -648,13 +648,13 @@ VM이 꺼지면 비서는 스스로 알릴 수 없어요. 비서가 5분마다 �
 | 하려는 일 | 방법 |
 | --- | --- |
 | 최신 코드 받기 | 디스코드 `!update` (git pull 후 재시작) |
-| 재시작 | 디스코드 `!restart`, 또는 VM `sudo systemctl restart claude-assistant` |
-| 상태 보기 | VM `sudo systemctl status claude-assistant` |
-| 로그 보기 | VM `journalctl -u claude-assistant -n 50` (실시간은 `-f`) |
+| 재시작 | 디스코드 `!restart`, 또는 VM `sudo systemctl restart ai-assistant` |
+| 상태 보기 | VM `sudo systemctl status ai-assistant` |
+| 로그 보기 | VM `journalctl -u ai-assistant -n 50` (실시간은 `-f`) |
 | VM이 꺼져 있음 | Oracle 콘솔 → Compute → Instances → Start |
-| 백업에서 복구 | `sudo systemctl stop claude-assistant && .venv/bin/python deploy/restore.py --latest && sudo systemctl start claude-assistant` |
+| 백업에서 복구 | `sudo systemctl stop ai-assistant && .venv/bin/python deploy/restore.py --latest && sudo systemctl start ai-assistant` |
 
-포크한 저장소라면 원래 저장소의 새 기능은 내 저장소 화면의 **Sync fork**로 받은 뒤 `!update` 해요. VM에서 `config.yaml`을 직접 고치지 않아요. 이미 고쳐서 충돌했다면 VM에서 `cd ~/claude-assistant && git checkout -- config.yaml && git pull` 후 `!set`으로 다시 넣어요.
+포크한 저장소라면 원래 저장소의 새 기능은 내 저장소 화면의 **Sync fork**로 받은 뒤 `!update` 해요. VM에서 `config.yaml`을 직접 고치지 않아요. 이미 고쳐서 충돌했다면 VM에서 `cd ~/ai-assistant && git checkout -- config.yaml && git pull` 후 `!set`으로 다시 넣어요.
 
 ### 만료와 재발급
 
@@ -698,8 +698,8 @@ VM이 꺼지면 비서는 스스로 알릴 수 없어요. 비서가 5분마다 �
 
 | 하려는 일 | 방법 |
 | --- | --- |
-| 비서 끄기 | VM에서 `sudo systemctl stop claude-assistant` (다시 켜기는 `start`). Docker는 `docker compose stop` |
-| VM을 다시 켜도 안 켜지게 | `sudo systemctl disable claude-assistant` (되돌리기는 `enable`) |
+| 비서 끄기 | VM에서 `sudo systemctl stop ai-assistant` (다시 켜기는 `start`). Docker는 `docker compose stop` |
+| VM을 다시 켜도 안 켜지게 | `sudo systemctl disable ai-assistant` (되돌리기는 `enable`) |
 | Claude 비용만 막기 | Anthropic Console → API Keys에서 비서 키 비활성화 |
 | 기능 하나만 끄기 | `!set 기능.enabled false` → `!restart`. 끌 수 있는 기능: `paysms`, `talkcal`, `birthdays`, `youtube`, `expense_sheet`, `commute`, `briefing`, `self_improve`, `todo` |
 
@@ -713,7 +713,7 @@ VM이 꺼지면 비서는 스스로 알릴 수 없어요. 비서가 5분마다 �
 2. **비서를 끄고 다시 켜지지 않게 해요.**
 
    ```
-   sudo systemctl disable --now claude-assistant
+   sudo systemctl disable --now ai-assistant
    ```
 
    Docker로 설치했다면 `docker compose down`이에요.
@@ -730,15 +730,15 @@ VM이 꺼지면 비서는 스스로 알릴 수 없어요. 비서가 5분마다 �
 | 서비스 | 연결 끊기 |
 | --- | --- |
 | Discord | 개발자 포털 → 내 앱 → 맨 아래 **Delete App**. `#비서`·`#결제` 채널 편집 → 연동 → 웹후크 삭제 |
-| Gmail | myaccount.google.com → 보안 → 앱 비밀번호 → claude-assistant 삭제 |
-| Google (OAuth) | myaccount.google.com → 보안 → 서드 파티 앱 및 서비스 → claude-assistant → **모든 액세스 삭제**. Cloud 콘솔의 프로젝트도 지우려면 IAM 및 관리자 → 설정 → 종료 |
-| Microsoft | account.microsoft.com → 개인 정보 → 앱 및 서비스의 액세스 권한에서 claude-assistant 제거. portal.azure.com → 앱 등록 → claude-assistant → 삭제. 삼성 리마인더의 To Do 동기화는 원하면 끄기 |
-| Notion | 비서 메모 페이지 ··· → 연결 → claude-assistant 연결 해제. notion.so/my-integrations에서 통합 삭제. 페이지와 DB 내용은 남아요 |
-| 카카오 | 카카오톡 → 설정 → 카카오계정 → 연결된 서비스 관리 → claude-assistant 연결 끊기. developers.kakao.com → 내 애플리케이션 → 앱 삭제. 톡캘린더에 복사된 일정은 남아요 |
+| Gmail | myaccount.google.com → 보안 → 앱 비밀번호 → ai-assistant 삭제 |
+| Google (OAuth) | myaccount.google.com → 보안 → 서드 파티 앱 및 서비스 → ai-assistant → **모든 액세스 삭제**. Cloud 콘솔의 프로젝트도 지우려면 IAM 및 관리자 → 설정 → 종료 |
+| Microsoft | account.microsoft.com → 개인 정보 → 앱 및 서비스의 액세스 권한에서 ai-assistant 제거. portal.azure.com → 앱 등록 → ai-assistant → 삭제. 삼성 리마인더의 To Do 동기화는 원하면 끄기 |
+| Notion | 비서 메모 페이지 ··· → 연결 → ai-assistant 연결 해제. notion.so/my-integrations에서 통합 삭제. 페이지와 DB 내용은 남아요 |
+| 카카오 | 카카오톡 → 설정 → 카카오계정 → 연결된 서비스 관리 → ai-assistant 연결 끊기. developers.kakao.com → 내 애플리케이션 → 앱 삭제. 톡캘린더에 복사된 일정은 남아요 |
 | GitHub | Settings → Developer settings → Fine-grained tokens → 비서 토큰 삭제. 저장소 Settings → Secrets 삭제, Pages 끄기. 저장소 자체는 보관(Archive)하거나 삭제 |
 | 공공데이터포털 | 마이페이지 → 데이터 활용 → 활용신청 현황에서 해지 (요금은 없어요) |
 | healthchecks.io | 체크 삭제 (안 지우면 "down" 알림이 계속 와요). 계정은 Account Settings에서 삭제 |
 | 폰 | 결제 문자 전달 앱 삭제. 알림 접근 권한도 같이 사라져요 |
 
 5. **VM과 데이터를 지워요.** Oracle 콘솔 → Compute → Instances → 인스턴스 → **Terminate** → "부트 볼륨 영구 삭제"에 체크. VM 안의 `.env`, 토큰, 대화 기록, 서재 파일이 모두 지워지고 되돌릴 수 없어요. VCN 같은 네트워크 자원은 남아도 요금은 없어요. Oracle 계정을 해지하려면 계정 메뉴 → 계정 해지 요청.
-6. **남는 데이터를 정리해요 (선택).** 구글 드라이브 `claude-assistant-backup` 폴더, 구글 시트 "지출 (비서)", Notion 비서 메모 페이지, 카카오 톡캘린더의 복사된 일정, PC의 SSH 키 파일(`oracle.key`)과 adb 폴더.
+6. **남는 데이터를 정리해요 (선택).** 구글 드라이브 `ai-assistant-backup` 폴더, 구글 시트 "지출 (비서)", Notion 비서 메모 페이지, 카카오 톡캘린더의 복사된 일정, PC의 SSH 키 파일(`oracle.key`)과 adb 폴더.

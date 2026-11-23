@@ -1,10 +1,10 @@
 """카카오 다시 로그인 (VM에서) — 톡캘린더 권한(talk_calendar)을 추가할 때 한 번.
 
 먼저 카카오 개발자 콘솔 → 내 앱 → 카카오 로그인 → 동의항목 → '톡캘린더 및 일정 생성, 조회, 편집/삭제' 를 켜세요.
-    cd ~/claude-assistant && .venv/bin/python deploy/kakao_auth.py
+    cd ~/ai-assistant && .venv/bin/python deploy/kakao_auth.py
 1) 출력된 주소를 폰/PC 브라우저로 열고 동의
 2) 이동한 주소창(https://localhost/?code=…)의 주소 전체를 복사해 붙여넣기 (페이지는 안 열려도 정상)
-3) data/kakao.json 에 새 토큰 저장 → sudo systemctl restart claude-assistant
+3) data/kakao.json 에 새 토큰 저장 → sudo systemctl restart ai-assistant
 """
 import json
 import os
@@ -36,4 +36,4 @@ out = Path(os.environ.get("DATA_DIR", ROOT / "data")) / "kakao.json"
 out.parent.mkdir(parents=True, exist_ok=True)
 out.write_text(json.dumps({"refresh_token": tok["refresh_token"]}))
 os.chmod(out, 0o600)
-print(f"✅ 저장: {out}\n   허락된 권한: {tok.get('scope', '?')}\n   이제: sudo systemctl restart claude-assistant")
+print(f"✅ 저장: {out}\n   허락된 권한: {tok.get('scope', '?')}\n   이제: sudo systemctl restart ai-assistant")

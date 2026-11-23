@@ -6,11 +6,11 @@
    → 그다음 '앱 게시'(프로덕션)로 전환. 테스트 상태로 두면 토큰이 7일마다 만료됩니다.
    (본인만 쓰면 검수 없이 '확인되지 않은 앱' 경고만 뜨고 → 고급 → 계속 으로 진행 가능)
 3. 클라이언트 → 클라이언트 만들기 → 유형 '데스크톱 앱' → JSON 다운로드
-4. 그 JSON을 VM으로 복사:  scp client_secret_*.json ubuntu@VM주소:~/claude-assistant/data/client_secret.json
+4. 그 JSON을 VM으로 복사:  scp client_secret_*.json ubuntu@VM주소:~/ai-assistant/data/client_secret.json
 
 실행 (VM, SSH 터널 사용 — VM엔 브라우저가 없으므로 내 PC 브라우저로 로그인)
   내 PC에서:  ssh -L 8765:localhost:8765 ubuntu@VM주소
-  그 SSH 안에서:  cd ~/claude-assistant && .venv/bin/python deploy/google_auth.py
+  그 SSH 안에서:  cd ~/ai-assistant && .venv/bin/python deploy/google_auth.py
   → 출력된 주소를 PC 브라우저로 열어 로그인·허용 → data/google_token.json 생성 → 봇 재시작
   유튜브(구독 새 영상)는 구글이 다른 권한과 함께 요청하지 못하게 해서 따로:  deploy/google_auth.py --youtube
   Docker로 설치했다면:  docker compose run --rm -p 127.0.0.1:8765:8765 -e OAUTH_BIND_ADDR=0.0.0.0 assistant python deploy/google_auth.py
@@ -42,6 +42,6 @@ creds = flow.run_local_server(host="localhost", bind_addr=os.environ.get("OAUTH_
 out = DATA / ("google_youtube_token.json" if YOUTUBE else "google_token.json")
 out.write_text(creds.to_json())
 os.chmod(out, 0o600)
-print(f"✅ {out} 생성. 이제: sudo systemctl restart claude-assistant")
+print(f"✅ {out} 생성. 이제: sudo systemctl restart ai-assistant")
 if not YOUTUBE:
     print("   유튜브 새 영상 알림도 쓰려면 한 번 더:  .venv/bin/python deploy/google_auth.py --youtube")

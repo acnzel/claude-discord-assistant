@@ -16,15 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: 이미지 빌드
-        run: docker build -t claude-assistant .
+        run: docker build -t ai-assistant .
       - name: compose 파일 검사
         run: docker compose config -q
       - name: 진입 스크립트가 .env 없을 때 멈추는지
         run: |
           set +e
-          docker run --rm -v "$PWD:/app" claude-assistant python -c "print('should not run')" ; code=$?
+          docker run --rm -v "$PWD:/app" ai-assistant python -c "print('should not run')" ; code=$?
           test $code -ne 0
       - name: 컨테이너 안에서 오프라인 테스트
         run: |
           cp .env.example .env
-          docker run --rm -v "$PWD:/app" claude-assistant sh -c "pip install -q pytest && python -c 'import assistant.bot' && python -m pytest -q tests/"
+          docker run --rm -v "$PWD:/app" ai-assistant sh -c "pip install -q pytest && python -c 'import assistant.bot' && python -m pytest -q tests/"

@@ -190,7 +190,7 @@ async def run(client, store, cfg: dict, days: int = 7) -> str:
         "", "## 수정", *[f"- `{e['file']}`: {e['reason']}" for e in applied],
         *(["", "## 적용하지 않은 수정", *[f"- {r}" for r in rejected]] if rejected else []),
         "", "합치면 디스코드에서 `!update`로 반영돼요. 자동 병합되지 않아요.",
-        "", "🤖 claude-assistant 자기 개선 (주간)"])
+        "", "🤖 ai-assistant 자기 개선 (주간)"])
     branch = f"self-improve/{datetime.now(tz):%Y%m%d-%H%M}"
     url = await open_pr(repo, changed, f"자기 개선 {datetime.now(tz):%m/%d}: 수정 {len(applied)}건", body, branch)
     lines.append(f"📬 PR: {url}\n테스트가 통과하면 합치고 `!update` 하세요.")

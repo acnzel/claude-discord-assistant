@@ -1,6 +1,6 @@
 """Microsoft To Do 로그인 (VM에서 한 번 실행, 기기 코드 방식 — 브라우저가 없어도 됨).
 
-    cd ~/claude-assistant && .venv/bin/python deploy/ms_auth.py
+    cd ~/ai-assistant && .venv/bin/python deploy/ms_auth.py
 
 화면에 나온 주소를 폰/PC 브라우저로 열고 코드를 입력 → 삼성 리마인더와 연결한 그 Microsoft 계정으로 로그인 → 승인.
 성공하면 data/ms_token.json 이 생기고, 이후 봇이 알아서 갱신합니다 (90일 넘게 안 쓰면 다시 로그인).
@@ -59,7 +59,7 @@ def main():
         mark = " (기본)" if l.get("wellknownListName") == "defaultList" else ""
         print(f"  - {l['displayName']}{mark}")
     print("\n삼성 리마인더와 동기화한 목록이 기본 목록이 아니면 config.yaml 의 todo.list_name 에 그 이름을 넣으세요.")
-    print("그다음: sudo systemctl restart claude-assistant")
+    print("그다음: sudo systemctl restart ai-assistant")
 
 
 if __name__ == "__main__":

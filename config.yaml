@@ -125,7 +125,7 @@ budget:                           # 크레딧 가드 (봇이 쓴 Claude API 비�
   save_mode: true                 # 100% 넘으면 절약 모드 (깊은 모드·어드바이저·플레이테스트·자기 개선 멈춤), !budget off로 해제
   prices: {}                      # 가격 덮어쓰기 (USD/100만 토큰), 비우면 assistant/costs.py 기본값
 
-backup:                           # 구글 드라이브 'claude-assistant-backup' 폴더 (drive.file 권한 필요)
+backup:                           # 구글 드라이브 'ai-assistant-backup' 폴더 (drive.file 권한 필요)
   weekly: "Sun 04:17"
   keep: 8
 

@@ -151,7 +151,7 @@
 키워드: 대시보드, 한눈에, 홈 화면, 페이지
 - `!dash` → 일정·할 일·지출·쿠폰·주기·비용을 보여주는 개인 페이지 링크. 폰 홈 화면에 추가해 두면 편해요.
 - 링크가 열쇠예요. 다른 사람에게 보내지 마세요. `!dash reset`으로 열쇠를 바꾸면 예전 링크는 안 열려요.
-- 07~23시에 내용이 바뀌면 매시간 갱신돼요. 비서 GitHub 토큰에 claude-assistant 저장소 Contents 쓰기 권한이 필요해요.
+- 07~23시에 내용이 바뀌면 매시간 갱신돼요. 비서 GitHub 토큰에 claude-discord-assistant 저장소 Contents 쓰기 권한이 필요해요.
 
 ## 비용과 한도
 키워드: 비용, 요금, 예산, 토큰, 사용량, 절약 모드, 웹 검색, 한도, 크레딧
@@ -173,5 +173,5 @@
 - `!renewals` 재발급 일정 · `!renewed 키` 재발급 기록 · `!renewed 키 YYYY-MM-DD` 새 만료일.
 - `!improve` 지난 7일 기록을 분석해 수정안 PR 만들기(대화 10턴 이상) · `!playtest [목표]` AI 플레이테스트(GitHub Actions).
 - 봇이 죽으면 healthchecks.io가 디스코드로 알려요(`HEALTHCHECK_URL` 설정 시).
-- 문제가 생기면 VM에서 `journalctl -u claude-assistant -n 50 --no-pager`로 로그를 봐요.
+- 문제가 생기면 VM에서 `journalctl -u ai-assistant -n 50 --no-pager`로 로그를 봐요.
 - GitHub 404 오류: 비서 토큰이 그 저장소를 못 보는 거예요. Fine-grained 토큰의 Repository access에 저장소를 추가하고 Contents·Pull requests·Actions·Issues를 Read and write로 줘요.
