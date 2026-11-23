@@ -1,5 +1,5 @@
 [Unit]
-Description=Claude Discord Assistant
+Description=AI Discord Assistant
 After=network-online.target
 Wants=network-online.target
 
